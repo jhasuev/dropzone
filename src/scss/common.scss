@@ -1,0 +1,32 @@
+body {
+  font: 16px "Trebuchet MS";
+  user-select: none;
+}
+
+.btn {
+  min-height: 50px;
+  min-width: 160px;
+  padding: 10px 15px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 5px;
+
+  box-shadow: 5px 5px 5px rgba(0,0,0,.2);
+
+  text-transform: uppercase;
+  font-size: 13px;
+  font-weight: bold;
+  color: #6074D0;
+  background-color: #EAEAEA;
+
+  transition: background-color .2s;
+  cursor: pointer;
+
+  &:hover {
+    background-color: #ddd;
+  }
+  &:active {
+    background-color: #ccc;
+  }
+}

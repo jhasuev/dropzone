@@ -16,7 +16,7 @@
         </div>
         <div class="miniatures__list-item">
           <div class="miniatures__list-preview" style="background-image: url(https://picsum.photos/200/300)" />
-          <div class="miniatures__list-title">Картинка №1</div>
+          <div class="miniatures__list-title">Картинка №1Картинка №1Картинка №1</div>
         </div>
         <div class="miniatures__list-item">
           <div class="miniatures__list-preview" style="background-image: url(https://picsum.photos/200/300)" />
@@ -127,19 +127,19 @@
 
       &-item {
         width: 150px;
-        border: 2px solid #333;
         border-radius: 10px;
         overflow: hidden;
 
+        border: 2px solid #333;
+        background-color: #333;
         margin: 10px;
       }
       &-preview {
         min-height: 115px;
-        background: center center no-repeat;
+        background: #fff center center no-repeat;
         background-size: contain;
       }
       &-title {
-        background-color: #333;
         color: #ddd;
         padding: 10px 5px;
         font-size: 12px;

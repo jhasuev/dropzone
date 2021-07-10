@@ -2,8 +2,14 @@
   <div class="app">
     <h1 class="header">File uploader</h1>
     
-    <div class="dropzone">
-      Перенесите файл сюда!
+    <div
+      class="dropzone"
+      @drop.prevent="drop"
+      @dragenter.prevent="dragEnter"
+      @dragleave.prevent="dragLeave"
+      @dragover.prevent="dragOver"
+    >
+      {{ getDropzoneText }}
     </div>
 
     <button class="btn">Отправить</button>
@@ -72,6 +78,41 @@
 <script>
   export default {
     name: 'App',
+    data(){
+      return {
+        states: {
+          drop: "Перенесите файл сюда!",
+          dragenter: "Отпускайте сюда эти файлы.",
+          dragleave: "Перенесите файл сюда!",
+          dragover: "Отпускайте сюда эти файлы.",
+        },
+        state: "drop",
+      }
+    },
+
+    computed: {
+      getDropzoneText(){
+        return this.states[this.state]
+      }
+    },
+
+    methods: {
+      drop(){
+        this.state = "drop"
+      },
+
+      dragEnter(){
+        this.state = "dragenter"
+      },
+
+      dragLeave(){
+        this.state = "dragleave"
+      },
+
+      dragOver(){
+        this.state = "dragover"
+      },
+    },
   }
 </script>
 

@@ -15,61 +15,20 @@
     <button class="btn">Отправить</button>
     
     <div class="miniatures">
-      <div class="miniatures__list">
-        <div class="miniatures__list-item">
-          <div class="miniatures__list-preview" style="background-image: url(https://picsum.photos/200/300)" />
-          <div class="miniatures__list-title">Картинка №1</div>
-        </div>
-        <div class="miniatures__list-item">
-          <div class="miniatures__list-preview" style="background-image: url(https://picsum.photos/200/300)" />
-          <div class="miniatures__list-title">Картинка №1Картинка №1Картинка №1</div>
-        </div>
-        <div class="miniatures__list-item">
-          <div class="miniatures__list-preview" style="background-image: url(https://picsum.photos/200/300)" />
-          <div class="miniatures__list-title">Картинка №1</div>
-        </div>
-        <div class="miniatures__list-item">
-          <div class="miniatures__list-preview" style="background-image: url(https://picsum.photos/200/300)" />
-          <div class="miniatures__list-title">Картинка №1</div>
-        </div>
-        <div class="miniatures__list-item">
-          <div class="miniatures__list-preview" style="background-image: url(https://picsum.photos/200/300)" />
-          <div class="miniatures__list-title">Картинка №1</div>
-        </div>
-        <div class="miniatures__list-item">
-          <div class="miniatures__list-preview" style="background-image: url(https://picsum.photos/200/300)" />
-          <div class="miniatures__list-title">Картинка №1</div>
-        </div>
-        <div class="miniatures__list-item">
-          <div class="miniatures__list-preview" style="background-image: url(https://picsum.photos/200/300)" />
-          <div class="miniatures__list-title">Картинка №1</div>
-        </div>
-        <div class="miniatures__list-item">
-          <div class="miniatures__list-preview" style="background-image: url(https://picsum.photos/200/300)" />
-          <div class="miniatures__list-title">Картинка №1</div>
-        </div>
-        <div class="miniatures__list-item">
-          <div class="miniatures__list-preview" style="background-image: url(https://picsum.photos/200/300)" />
-          <div class="miniatures__list-title">Картинка №1</div>
-        </div>
-        <div class="miniatures__list-item">
-          <div class="miniatures__list-preview" style="background-image: url(https://picsum.photos/200/300)" />
-          <div class="miniatures__list-title">Картинка №1</div>
-        </div>
-        <div class="miniatures__list-item">
-          <div class="miniatures__list-preview" style="background-image: url(https://picsum.photos/200/300)" />
-          <div class="miniatures__list-title">Картинка №1</div>
-        </div>
-        <div class="miniatures__list-item">
-          <div class="miniatures__list-preview" style="background-image: url(https://picsum.photos/200/300)" />
-          <div class="miniatures__list-title">Картинка №1</div>
-        </div>
-        <div class="miniatures__list-item">
-          <div class="miniatures__list-preview" style="background-image: url(https://picsum.photos/200/300)" />
-          <div class="miniatures__list-title">Картинка №1</div>
+      <div v-if="files.length" class="miniatures__list">
+        <div
+          v-for="(file, i) in files"
+          :key="i"
+          class="miniatures__list-item"
+        >
+          <div
+            class="miniatures__list-preview"
+            :style="{'background-image': getImageURL(file)}"
+          />
+          <div class="miniatures__list-title">{{ file.name }}</div>
         </div>
       </div>
-      <div class="miniatures__text">Здесь будут отображаться ваши загруженные файлы.</div>
+      <div v-else class="miniatures__text">Здесь будут отображаться ваши загруженные файлы.</div>
     </div>
 
   </div>
@@ -87,6 +46,7 @@
           dragover: "Отпускайте сюда эти файлы.",
         },
         state: "drop",
+        files: [],
       }
     },
 
@@ -97,8 +57,33 @@
     },
 
     methods: {
-      drop(){
+      selectFiles(e){
+        e.dataTransfer.files.forEach(file => {
+          if(!this.fileAlreadyUploaded(file)) {
+            const reader = new FileReader()
+            reader.onload = e => {
+              this.files.push({
+                name: file.name,
+                isImage: file.type.split('/').shift() == 'image',
+                base64: e.target.result,
+              })
+            }
+            reader.readAsDataURL(file)
+          }
+        })
+      },
+
+      fileAlreadyUploaded(file){
+        return !file
+      },
+
+      getImageURL(file){
+        return `url(${file.isImage ? file.base64 : 'https://bit.ly/3e725Hj'})`
+      },
+
+      drop(e){
         this.state = "drop"
+        this.selectFiles(e)
       },
 
       dragEnter(){
